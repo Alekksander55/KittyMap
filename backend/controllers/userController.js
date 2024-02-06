@@ -28,8 +28,8 @@ const authUser = asyncHandler(async (req, res) => {
 // #access public
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
-  const isUserExit = await User.findOne({ email });
-  if (isUserExit) {
+  const isUserExist = await User.findOne({ email });
+  if (isUserExist) {
     res.status(400);
     throw new Error("User already exists with this mail");
   }
@@ -105,10 +105,19 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// #desc Get all users from the MoongooseDB
+// #route GET /api/users/all
+// #Private
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+  res.status(200).json({ users });
+});
+
 export {
   authUser,
   registerUser,
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  getAllUsers,
 };

@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes.js";
+import markerRoutes from './routes/markerRoutes.js'
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import connectToDb from "./config/db.js";
 import cookieParser from "cookie-parser";
@@ -12,6 +13,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(cookieParser())
 app.get("/", (req, res) => res.send("API Running"));
 app.use("/api/users", userRoutes);
+app.use('/api/markers', markerRoutes)
 
 app.use(notFound);
 app.use(errorHandler);
