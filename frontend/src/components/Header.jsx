@@ -28,16 +28,19 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>KittyMap</Navbar.Brand>
+            <Navbar.Brand>KittyMap - {userInfo?.username}</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.username} id="username">
+                  <NavDropdown title='Menu' id="username">
                   <LinkContainer to="/map">
                       <NavDropdown.Item>Kitty Map</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/markers">
+                      <NavDropdown.Item>My cats</NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to="/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>

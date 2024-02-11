@@ -1,13 +1,12 @@
 import asyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
 import Marker from "../models/markerModel.js";
-import expressAsyncHandler from "express-async-handler";
 
 // #desc Adding a Marker
 // #route POST /api/markers/add
 // #access Private
 const addMarker = asyncHandler(async (req, res) => {
-  const { title, description, longitude, latitude } = req.body;
+  const { title, description, longitude, latitude, isFriendly, imgUrl } = req.body;
+  console.log(req.user);
   const marker = await Marker.create({
     title,
     description,
@@ -15,8 +14,10 @@ const addMarker = asyncHandler(async (req, res) => {
       type: "Point",
       coordinates: [longitude, latitude],
     },
-    user: req.user.id,
+    user: req.user.username,
     updatedBy: req.user.id,
+    isFriendly,
+    imgUrl
   });
   if (marker) {
     res.status(201).json({
@@ -25,6 +26,8 @@ const addMarker = asyncHandler(async (req, res) => {
       description: marker.description,
       location: marker.location,
       author: marker.user,
+      isFriendly: marker.isFriendly,
+      imgUrl: marker.imgUrl
     });
   } else {
     res.status(400);
@@ -56,13 +59,13 @@ const getAllMarkers = asyncHandler(async (req, res) => {
 // #route GET /api/markers/:id
 // #access Private
 const getMarker = asyncHandler(async (req, res) => {
-    const marker = await Marker.findById(req.params.id);
-    if (!marker) {
-        return res.status(404).json({ message: "Marker not found" });
-      } else {
-        res.json({marker})
-      }
-  });
+  const marker = await Marker.findById(req.params.id);
+  if (!marker) {
+    return res.status(404).json({ message: "Marker not found" });
+  } else {
+    res.json({ marker });
+  }
+});
 
 // #desc Updating a Marker with a given id, show the last updater
 // #route PUT /api/markers/:id

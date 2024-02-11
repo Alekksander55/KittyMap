@@ -22,7 +22,7 @@ const markerSchema = new mongoose.Schema(
       },
     },
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -30,6 +30,13 @@ const markerSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
+    },
+    isFriendly: {
+      type: Boolean,
+      default: true,
+    },
+    imgUrl: {
+      type: String
     }
   },
   {
