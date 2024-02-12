@@ -2,11 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Row, Col } from "react-bootstrap";
 import FormContainer from "../components/FormContainer";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader.jsx";
 import { useRegisterMutation } from "../slices/userApiSlice";
-import { setCredentials } from "../slices/authSlice";
 
 const RegisterScreen = () => {
   const [username, setUserName] = useState("");
@@ -14,7 +13,6 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
   const [register, { isLoading }] = useRegisterMutation();
@@ -32,10 +30,9 @@ const RegisterScreen = () => {
     } else {
       try {
         const res = await register({ username, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
         navigate("/");
       } catch (error) {
-        toast.error(error?.data?.message || error.error)
+        toast.error(error?.data?.message || error.error);
       }
     }
   };
@@ -83,7 +80,7 @@ const RegisterScreen = () => {
           ></Form.Control>
         </Form.Group>
 
-        {isLoading && <Loader/>}
+        {isLoading && <Loader />}
 
         <Button type="submit" variant="primary" className="mt-3">
           Register

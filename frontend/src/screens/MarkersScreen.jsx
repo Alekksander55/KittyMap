@@ -84,7 +84,6 @@ const MarkersScreen = () => {
                 <p>
                   {marker.description} &nbsp;
                   <input
-                    placeholder="Description"
                     style={{ display: `${hidden}` }}
                     onChange={(e) => setDescription(e.target.value)}
                   />
@@ -96,6 +95,7 @@ const MarkersScreen = () => {
                     Update data
                   </button>
                 </p>
+                <div><img src={marker.imgUrl} style={{height:'200px'}}/></div>
                 <p>Created by : {marker.user}</p>
                 <button
                   onClick={() => {

@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ImageUploader from "../components/ImageUploader.jsx";
 import {
   GoogleMap,
   useLoadScript,
   MarkerF,
   CircleF,
-  InfoWindowF,
   InfoWindow,
 } from "@react-google-maps/api";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import IconForUser from "../assets/IconForUser.png";
 import catIcon from "../assets/catIcon.png";
 import catIconNotFriendly from "../assets/catIconNotFriendly.png";
@@ -22,10 +21,12 @@ import { toast } from "react-toastify";
 
 const MapScreen = () => {
   const [userPosition, setUserPosition] = useState({ lat: 30, lng: 30 });
+  const [form, setForm] = useState("none");
   const [markers, setMarkers] = useState();
   const [catName, setCatName] = useState("");
   const [catDesc, setCatDesc] = useState("");
   const [latitude, setLatitude] = useState("");
+  const [imgUrl, setImgUrl] = useState(null);
   const [longitude, setLongitude] = useState("");
   const [selectedMarker, setSelectedMarker] = useState();
   const [friendly, setFriendly] = useState(false);
@@ -35,6 +36,7 @@ const MapScreen = () => {
   const [getMarkers] = useLazyGetMarkersQuery();
   const [addMarker, { isLoading }] = useAddMarkerMutation();
 
+  // fetch the markers from the MongoDB
   const fetchMarkers = async () => {
     try {
       const res = await getMarkers().unwrap();
@@ -70,11 +72,12 @@ const MapScreen = () => {
       </div>
     );
   }
-
-  const handleClick = async () => {
-    console.log(markers);
+  // This function is getting the URL from the ImageUploader Child component
+  const handleOnUpload = (imgUrl) => {
+    setImgUrl(imgUrl);
   };
 
+  // Send the data to the MongoDB to add a marker
   const handleNewMarker = async (e) => {
     e.preventDefault();
     try {
@@ -84,7 +87,7 @@ const MapScreen = () => {
         longitude: longitude,
         latitude: latitude,
         isFriendly: friendly,
-        imgUrl:'test'
+        imgUrl,
       });
       toast.success("A new cat was added to the map !");
       fetchMarkers();
@@ -95,14 +98,17 @@ const MapScreen = () => {
 
   return (
     <>
+  
       <div
         style={{
           height: "80vh",
+          width:'80vw',
           border: "2px solid black",
           margin: "20px",
           padding: "5px",
+          display:'inline-block'
         }}
-      >
+      >  
         <GoogleMap
           onClick={(e) => {
             setLatitude(e.latLng.lng());
@@ -160,17 +166,30 @@ const MapScreen = () => {
                   lng: selectedMarker.location.coordinates[1],
                 }}
               >
-                <div style={{ border: "1px solid" }}>
-                  <h4>Hello my name is "{selectedMarker.title}"</h4>
-                  <h6>
-                    {" "}
-                    I'm a "{selectedMarker.description}" and{" "}
-                    {selectedMarker.isFriendly
-                      ? "i love to be pet"
-                      : "i am wild, be careful"}
-                  </h6>
+                <div
+                  style={{
+                    border: "1px solid",
+                    height: "200px",
+                    margin: "20px",
+                    padding: "20px",
+                  }}
+                >
+                  <center>
+                    <h4>Hello my name is "{selectedMarker.title}"</h4>
+                    <h6>
+                      {" "}
+                      I'm a "{selectedMarker.description}" and{" "}
+                      {selectedMarker.isFriendly
+                        ? "i love to be pet"
+                        : "i am wild, be careful"}
+                    </h6>
+                    <img
+                      src={selectedMarker.imgUrl}
+                      style={{ height: "200px", width: "200px" }}
+                    />
 
-                  <p>Added by {selectedMarker.user}</p>
+                    <p>Added by {selectedMarker.user}</p>
+                  </center>
                 </div>
               </InfoWindow>
             )}
@@ -178,76 +197,77 @@ const MapScreen = () => {
         </GoogleMap>
       </div>
       <center>
-        <button onClick={handleStart}>Start !</button>{" "}
-        <button onClick={handleClick}>Get Markers !</button>{" "}
+        <button
+          onClick={() => (form == "none" ? setForm("") : setForm("none"))}
+        >
+          Add a new Cat Marker on the Map
+        </button>
       </center>
 
-      <FormContainer>
-        <h2>Add a Cat Marker </h2>
+      <div style={{ display: `${form}` }}>
+        <FormContainer>
+          <h2>Add a Cat Marker </h2>
 
-        <Form onSubmit={handleNewMarker}>
-          <Form.Group className="my-2">
-            My Name is{" "}
-            <Form.Control
-              type="text"
-              placeholder="Cat Name"
-              value={catName}
-              required={true}
-              onChange={(e) => setCatName(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+          <Form onSubmit={handleNewMarker}>
+            <Form.Group className="my-2">
+              My Name is{" "}
+              <Form.Control
+                type="text"
+                placeholder="Cat Name"
+                value={catName}
+                required={true}
+                onChange={(e) => setCatName(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group className="my-2">
-            I'm a
-            <Form.Control
-              type="text"
-              placeholder="Cat description"
-              value={catDesc}
-              required={true}
-              onChange={(e) => setCatDesc(e.target.value)}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group className="my-2">
+              I'm a
+              <Form.Control
+                type="text"
+                placeholder="Cat description"
+                value={catDesc}
+                required={true}
+                onChange={(e) => setCatDesc(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group className="my-2">
-            Am i friendly/pettable ?
-            <div>
-              <input
-                type="checkbox"
-                value={friendly}
-                onChange={(e) => setFriendly(e.target.checked)}
-              />
-            </div>
-          </Form.Group>
+            <Form.Group className="my-2">
+              Am i friendly/pettable ?
+              <div>
+                <input
+                  type="checkbox"
+                  value={friendly}
+                  onChange={(e) => setFriendly(e.target.checked)}
+                />
+              </div>
+            </Form.Group>
 
-          <ImageUploader />
+            <Form.Group className="my-2">
+              <Form.Control
+                style={{ backgroundColor: "lightgray" }}
+                placeholder="Longitude : Click on the map"
+                value={longitude}
+                required={true}
+                readOnly={true}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group className="my-2">
-            <Form.Control
-              style={{ backgroundColor: "lightgray" }}
-              placeholder="Longitude : Click on the map"
-              value={longitude}
-              required={true}
-              readOnly={true}
-            ></Form.Control>
-          </Form.Group>
+            <Form.Group className="my-2">
+              <Form.Control
+                style={{ backgroundColor: "lightgray" }}
+                placeholder="Latitude : Click on the map"
+                value={latitude}
+                required={true}
+                readOnly={true}
+              ></Form.Control>
+            </Form.Group>
 
-          <Form.Group className="my-2">
-            <Form.Control
-              style={{ backgroundColor: "lightgray" }}
-              placeholder="Latitude : Click on the map"
-              value={latitude}
-              required={true}
-              readOnly={true}
-            ></Form.Control>
-          </Form.Group>
+            {isLoading && <Loader />}
 
-          {isLoading && <Loader />}
-
-          <Button type="submit" variant="primary" className="mt-3">
-            Create Marker
-          </Button>
-        </Form>
-      </FormContainer>
+            <ImageUploader onUpload={handleOnUpload} />
+          </Form>
+        </FormContainer>
+      </div>
     </>
   );
 };
