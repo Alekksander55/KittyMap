@@ -15,16 +15,12 @@ app.use(cookieParser());
 app.get("/", (req, res) => res.send("API Running"));
 app.use("/api/users", userRoutes);
 app.use("/api/markers", markerRoutes);
-const corsOptions = {
-  origin: /\.onrender\.com$/,
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-};
-app.use(cors(corsOptions));
+app.use(cors())
 
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(process.env.SERVER_PORT || 5000, () =>
+app.listen(process.env.PORT || 5000, () =>
   console.log(`Running on ${process.env.SERVER_PORT || 5000}`)
 );
 connectToDb();
