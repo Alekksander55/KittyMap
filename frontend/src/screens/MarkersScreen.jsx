@@ -67,29 +67,29 @@ const MarkersScreen = () => {
                 style={{
                   borderRadius: "10px",
                   border: "1px solid black",
-                  height:'350px',
-                  width:'300px',
+                  width: "300px",
                   margin: "10px",
                   padding: "10px",
-                  display:'inline-block'
+                  display: "inline-block",
                 }}
               >
                 <h1>
                   {marker.title}{" "}
                   <img src={marker.isFriendly ? catIcon : catIconNotFriendly} />
                   &nbsp;{" "}
-                  <input
-                    placeholder="Name"
-                    style={{ display: `${hidden}` }}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
                 </h1>
-                <p>
-                  {marker.description} &nbsp;
-                  <input
-                    style={{ display: `${hidden}` }}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+                <input
+                  placeholder="Name"
+                  style={{ display: `${hidden}` }}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+                <p>{marker.description} &nbsp;</p>
+                <input
+                  style={{ display: `${hidden}` }}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Description"
+                />
+                <div>
                   <button
                     onClick={() => handleUpdate(marker._id)}
                     style={{ display: `${hidden}` }}
@@ -97,8 +97,17 @@ const MarkersScreen = () => {
                     {" "}
                     Update data
                   </button>
-                </p>
-                <div><img src={marker.imgUrl} style={{height:'150px', width:'200px', borderRadius:'80px'}}/></div>
+                </div>
+                <div>
+                  <img
+                    src={marker.imgUrl}
+                    style={{
+                      height: "150px",
+                      width: "200px",
+                      borderRadius: "80px",
+                    }}
+                  />
+                </div>
                 <p>Created by : {marker.user}</p>
                 <button
                   onClick={() => {
