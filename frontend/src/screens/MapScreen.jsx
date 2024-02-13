@@ -22,6 +22,7 @@ import "./MapScreen.css";
 
 const MapScreen = () => {
   const [userPosition, setUserPosition] = useState({ lat: 30, lng: 30 });
+  const [initialPosition, setInitialPosition] = useState({ lat: 30, lng: 30 })
   const [form, setForm] = useState("none");
   const [markers, setMarkers] = useState();
   const [catName, setCatName] = useState("");
@@ -51,6 +52,12 @@ const MapScreen = () => {
   const handleStart = () => {
     navigator.geolocation.watchPosition((position) =>
       setUserPosition({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      })
+    );
+    navigator.geolocation.getCurrentPosition((position) =>
+      setInitialPosition({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       })
@@ -120,7 +127,7 @@ const MapScreen = () => {
             height: "100%",
           }}
           zoom={18}
-          center={userPosition}
+          center={initialPosition}
           options={{
             fullscreenControl: false,
             mapTypeControl: false,
