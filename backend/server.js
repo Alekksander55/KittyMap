@@ -5,6 +5,7 @@ import markerRoutes from './routes/markerRoutes.js'
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import connectToDb from "./config/db.js";
 import cookieParser from "cookie-parser";
+import cors from 'cors'
 dotenv.config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cookieParser())
 app.get("/", (req, res) => res.send("API Running"));
 app.use("/api/users", userRoutes);
 app.use('/api/markers', markerRoutes)
+app.use(cors())
 
 app.use(notFound);
 app.use(errorHandler);
