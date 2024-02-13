@@ -6,13 +6,16 @@ const generateToken = (res, userId) => {
   const token = jwt.sign({ userId }, process.env.SECRET_ACCESS_TOKEN, {
     expiresIn: "1h",
   });
-
+ 
   res.cookie("jwt", token, {
     secure:true,
     httpOnly: true,
     sameSite: "none",
+    domain:'onrender.com',
     maxAge: 3600 * 1000,
   });
+
+  
 
     // // Set a cookie with the secure and HttpOnly flags
     // const secureCookie = true;
