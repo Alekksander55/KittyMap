@@ -17,7 +17,6 @@ const authUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
     });
-    console.log(user)
   } else {
     res.status(401);
     throw new Error("Invalid Email or PassWord");
