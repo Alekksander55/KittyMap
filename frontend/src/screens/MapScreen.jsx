@@ -99,10 +99,11 @@ const MapScreen = () => {
 
   return (
     <>
+    <center>
       <div
         style={{
           height: "100vh",
-          width: "80vw",
+          width: "100vh",
           border: "2px solid black",
           margin: "20px",
           padding: "5px",
@@ -163,13 +164,13 @@ const MapScreen = () => {
 
             <Form.Group className="my-2">
               Am i friendly/pettable ?
-              <div>
+               &nbsp;
                 <input
                   type="checkbox"
                   value={friendly}
                   onChange={(e) => setFriendly(e.target.checked)}
                 />
-              </div>
+              
             </Form.Group>
 
             <Form.Group className="my-2">
@@ -248,9 +249,9 @@ const MapScreen = () => {
                   <img
                     src={selectedMarker.imgUrl}
                     style={{
-                      height: "200px",
-                      width: "200px",
-                      borderRadius: "100px",
+                      height: "150px",
+                      width: "150px",
+                      borderRadius: "75px",
                     }}
                   />
 
@@ -261,9 +262,9 @@ const MapScreen = () => {
           </>
         </GoogleMap>
       </div>
-      <center></center>
+    
 
-      
+      </center>
     </>
   );
 };
