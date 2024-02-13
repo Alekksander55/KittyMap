@@ -1,4 +1,5 @@
 import { Container, Card, Button } from 'react-bootstrap';
+import catLogo from '../assets/kittylogo.jpg'
 
 const Hero = () => {
   return (
@@ -8,15 +9,11 @@ const Hero = () => {
           <h1 className='text-center mb-4'>Welcome to the KittyMap</h1>
           <p className='text-center mb-4'>
             Discover all the nice cats around you and everywhere in the world ! If you dont have an account you can register, else let's Sign in !
-          </p>
-          <div className='d-flex'>
-            <Button variant='primary' href='/login' className='me-3'>
-              Sign In
-            </Button>
-            <Button variant='secondary' href='/register'>
-              Register
-            </Button>
-          </div>
+            Click on the menu to start !
+            </p>
+            <img src={catLogo} style={{height:'300px', borderRadius:'150px'}}/>
+          
+
         </Card>
       </Container>
     </div>

@@ -14,19 +14,6 @@ const generateToken = (res, userId) => {
     maxAge: 3600 * 1000,
   });
 
-  // // Set a cookie with the secure and HttpOnly flags
-  // const secureCookie = true;
-  // const httpOnlyCookie = true;
-  // const cookieOptions = {
-  //   secure: secureCookie,
-  //   httpOnly: httpOnlyCookie,
-  //   maxAge: 3600 * 1000,
-  // };
-
-  // const cookieString = cookie.serialize('jwtToken', token, cookieOptions);
-
-  // // Set the cookie in the response header
-  // res.setHeader('Set-Cookie', cookieString);
 };
 
 export default generateToken;

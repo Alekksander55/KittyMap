@@ -18,7 +18,7 @@ import {
 } from "../slices/markerApiSlice.js";
 import FormContainer from "../components/FormContainer.jsx";
 import { toast } from "react-toastify";
-import './MapScreen.css'
+import "./MapScreen.css";
 
 const MapScreen = () => {
   const [userPosition, setUserPosition] = useState({ lat: 30, lng: 30 });
@@ -49,7 +49,7 @@ const MapScreen = () => {
 
   // Load the Map with the user current position
   const handleStart = () => {
-    navigator.geolocation.getCurrentPosition((position) =>
+    navigator.geolocation.watchPosition((position) =>
       setUserPosition({
         lat: position.coords.latitude,
         lng: position.coords.longitude,
@@ -99,17 +99,16 @@ const MapScreen = () => {
 
   return (
     <>
-  
       <div
         style={{
-          height: "80vh",
-          width:'80vw',
+          height: "100vh",
+          width: "80vw",
           border: "2px solid black",
           margin: "20px",
           padding: "5px",
-          display:'inline-block'
+          display: "flex",
         }}
-      >  
+      >
         <GoogleMap
           onClick={(e) => {
             setLatitude(e.latLng.lng());
@@ -128,83 +127,14 @@ const MapScreen = () => {
           }}
         >
           <>
-            <MarkerF position={userPosition} icon={IconForUser} />
-            <CircleF
-              center={userPosition}
-              radius={20}
-              options={{
-                fillColor: "blue",
-                fillOpacity: 0.2,
-                strokeColor: "blue",
-                strokeOpacity: 0.3,
-                strokeWeight: 1,
-              }}
-            />
-          </>
-          <>
-            {markers?.map((marker) => {
-              return (
-                <div key={marker._id}>
-                  <MarkerF
-                    position={{
-                      lat: marker.location.coordinates[0],
-                      lng: marker.location.coordinates[1],
-                    }}
-                    icon={marker.isFriendly ? catIcon : catIconNotFriendly}
-                    onClick={() => {
-                      setSelectedMarker(marker);
-                    }}
-                  />
-                </div>
-              );
-            })}
-            {selectedMarker && (
-              <InfoWindowF
-                onCloseClick={() => setSelectedMarker("")}
-                position={{
-                  lat: selectedMarker.location.coordinates[0],
-                  lng: selectedMarker.location.coordinates[1],
-                }}
-              >
-                {/* <div
-                  style={{
-                    border: "1px solid",
-                    height: "200px",
-                    margin: "20px",
-                    padding: "20px",
-                  }}
-                > */}
-                  <center>
-                    <h4>"{selectedMarker.title}"</h4>
-                    <h6>
-                      {" "}
-                      {selectedMarker.description} and{" "}
-                      {selectedMarker.isFriendly
-                        ? "i love to be pet"
-                        : "i am wild, be careful"}
-                    </h6>
-                    <img
-                      src={selectedMarker.imgUrl}
-                      style={{ height: "200px", width: "200px" }}
-                    />
-
-                    <p>Added by {selectedMarker.user}</p>
-                  </center>
-                {/* </div> */}
-              </InfoWindowF>
-            )}
-          </>
-        </GoogleMap>
-      </div>
-      <center>
-        <button
-          onClick={() => (form == "none" ? setForm("") : setForm("none"))}
-        >
-          Add a new Cat Marker on the Map
-        </button>
-      </center>
-
-      <div style={{ display: `${form}` }}>
+            <Button
+              variant="info"
+              style={{ position: "absolute", zIndex: "1" }}
+              onClick={() => (form == "none" ? setForm("") : setForm("none"))}
+            >
+              New Marker
+            </Button>
+            <div style={{ display: `${form}` }}>
         <FormContainer>
           <h2>Add a Cat Marker </h2>
 
@@ -268,6 +198,72 @@ const MapScreen = () => {
           </Form>
         </FormContainer>
       </div>
+            <MarkerF position={userPosition} icon={IconForUser} />
+            <CircleF
+              center={userPosition}
+              radius={20}
+              options={{
+                fillColor: "blue",
+                fillOpacity: 0.2,
+                strokeColor: "blue",
+                strokeOpacity: 0.3,
+                strokeWeight: 1,
+              }}
+            />
+          </>
+          <>
+            {markers?.map((marker) => {
+              return (
+                <div key={marker._id}>
+                  <MarkerF
+                    position={{
+                      lat: marker.location.coordinates[0],
+                      lng: marker.location.coordinates[1],
+                    }}
+                    icon={marker.isFriendly ? catIcon : catIconNotFriendly}
+                    onClick={() => {
+                      setSelectedMarker(marker);
+                    }}
+                  />
+                </div>
+              );
+            })}
+            {selectedMarker && (
+              <InfoWindowF
+                onCloseClick={() => setSelectedMarker("")}
+                position={{
+                  lat: selectedMarker.location.coordinates[0],
+                  lng: selectedMarker.location.coordinates[1],
+                }}
+              >
+                <center>
+                  <h4>"{selectedMarker.title}"</h4>
+                  <h6>
+                    {" "}
+                    {selectedMarker.description} and{" "}
+                    {selectedMarker.isFriendly
+                      ? "i love to be pet"
+                      : "i am wild, be careful"}
+                  </h6>
+                  <img
+                    src={selectedMarker.imgUrl}
+                    style={{
+                      height: "200px",
+                      width: "200px",
+                      borderRadius: "100px",
+                    }}
+                  />
+
+                  <p>Added by {selectedMarker.user}</p>
+                </center>
+              </InfoWindowF>
+            )}
+          </>
+        </GoogleMap>
+      </div>
+      <center></center>
+
+      
     </>
   );
 };

@@ -33,18 +33,17 @@ const ImageUploader = (props) => {
 
   return (
     <>
-      <h2>Add Image:</h2>
+      <h2>Upload your photo:</h2>
       <input type="file" onChange={handleChange} />
-      <img src={displayImage} width="200px" height="200px" />
+      <img src={displayImage} width="200px" height="200px" style={{borderRadius:'100px'}} />
       <button type="button" onClick={handleClick}>
         Upload
       </button>
       &nbsp;
       <div>
         <br></br>
-      <button onClick={() => props.onUpload(imgUrl)}> Create Marker</button>
+      <button onClick={() => props.onUpload(imgUrl)}> { isLoading ? <Spinner/> : <>Create Marker</>}</button>
       </div>
-      <>{isLoading && <Spinner />}</>
     </>
   );
 };
