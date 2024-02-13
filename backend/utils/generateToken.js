@@ -11,7 +11,6 @@ const generateToken = (res, userId) => {
     secure:true,
     httpOnly: true,
     sameSite: "none",
-    domain:'https://kittymap-fe.onrender.com/',
     maxAge: 3600 * 1000,
   });
 
