@@ -3,6 +3,11 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
+  console.log('request =>', req)
+  console.log('repsonse =>',res)
+  console.log('request.cookies =>', req.cookies)
+  console.log('repsonse.headers =>',res.headers)
+  console.log('repsonse.getheaders =>',res.getHeaders)
   let token = req.cookies.jwt;
   if (token) {
     try {
