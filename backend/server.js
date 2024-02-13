@@ -15,7 +15,11 @@ app.use(cookieParser());
 app.get("/", (req, res) => res.send("API Running"));
 app.use("/api/users", userRoutes);
 app.use("/api/markers", markerRoutes);
-app.use(cors())
+const corsOptions = {
+  origin: 'https://kittymap-fe.onrender.com',
+};
+
+app.use(cors(corsOptions));
 
 app.use(notFound);
 app.use(errorHandler);
