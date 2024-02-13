@@ -21,6 +21,6 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(process.env.PORT || 5000, () =>
-  console.log(`Running on ${process.env.SERVER_PORT || 5000}`)
+  console.log(`Running on ${process.env.PORT || 5000}`)
 );
 connectToDb();
