@@ -5,11 +5,9 @@ import Spinner from "react-bootstrap/Spinner";
 const ImageUploader = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState();
-  const [displayImage, setDisplayImage] = useState();
   const [imgUrl, setImgUrl] = useState(null);
   const handleChange = (e) => {
     console.log(e.target.files);
-    setDisplayImage(URL.createObjectURL(e.target.files[0]));
     setImage(e.target.files[0]);
   };
 
@@ -35,7 +33,6 @@ const ImageUploader = (props) => {
     <>
       <h2>Upload your photo:</h2>
       <input type="file" onChange={handleChange} />
-      <img src={displayImage} width="200px" height="200px" style={{borderRadius:'100px'}} />
       <button type="button" onClick={handleClick}>
         Upload
       </button>
