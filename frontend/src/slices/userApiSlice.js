@@ -8,6 +8,8 @@ export const usersApiSlice = apiSliceUser.injectEndpoints({
         url: `${USERS_URL}/auth`,
         method: "POST",
         body: data,
+        // add
+        extra: { withCredentials: true }      
       }),
     }),
     register: builder.mutation({
