@@ -5,7 +5,7 @@ import {
   useLoadScript,
   MarkerF,
   CircleF,
-  InfoWindow,
+  InfoWindowF,
 } from "@react-google-maps/api";
 import { Form, Button } from "react-bootstrap";
 import IconForUser from "../assets/IconForUser.png";
@@ -18,6 +18,7 @@ import {
 } from "../slices/markerApiSlice.js";
 import FormContainer from "../components/FormContainer.jsx";
 import { toast } from "react-toastify";
+import './MapScreen.css'
 
 const MapScreen = () => {
   const [userPosition, setUserPosition] = useState({ lat: 30, lng: 30 });
@@ -152,33 +153,32 @@ const MapScreen = () => {
                     icon={marker.isFriendly ? catIcon : catIconNotFriendly}
                     onClick={() => {
                       setSelectedMarker(marker);
-                      console.log(selectedMarker);
                     }}
                   />
                 </div>
               );
             })}
             {selectedMarker && (
-              <InfoWindow
+              <InfoWindowF
                 onCloseClick={() => setSelectedMarker("")}
                 position={{
                   lat: selectedMarker.location.coordinates[0],
                   lng: selectedMarker.location.coordinates[1],
                 }}
               >
-                <div
+                {/* <div
                   style={{
                     border: "1px solid",
                     height: "200px",
                     margin: "20px",
                     padding: "20px",
                   }}
-                >
+                > */}
                   <center>
-                    <h4>Hello my name is "{selectedMarker.title}"</h4>
+                    <h4>"{selectedMarker.title}"</h4>
                     <h6>
                       {" "}
-                      I'm a "{selectedMarker.description}" and{" "}
+                      {selectedMarker.description} and{" "}
                       {selectedMarker.isFriendly
                         ? "i love to be pet"
                         : "i am wild, be careful"}
@@ -190,8 +190,8 @@ const MapScreen = () => {
 
                     <p>Added by {selectedMarker.user}</p>
                   </center>
-                </div>
-              </InfoWindow>
+                {/* </div> */}
+              </InfoWindowF>
             )}
           </>
         </GoogleMap>

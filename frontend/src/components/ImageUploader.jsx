@@ -40,7 +40,10 @@ const ImageUploader = (props) => {
         Upload
       </button>
       &nbsp;
+      <div>
+        <br></br>
       <button onClick={() => props.onUpload(imgUrl)}> Create Marker</button>
+      </div>
       <>{isLoading && <Spinner />}</>
     </>
   );
