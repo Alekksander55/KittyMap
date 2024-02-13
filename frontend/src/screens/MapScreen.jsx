@@ -103,11 +103,11 @@ const MapScreen = () => {
       <div
         style={{
           height: "100vh",
-          width: "100vh",
+          width: "90vw",
           border: "2px solid black",
           margin: "20px",
           padding: "5px",
-          display: "flex",
+          
         }}
       >
         <GoogleMap
