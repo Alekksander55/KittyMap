@@ -67,6 +67,8 @@ const MarkersScreen = () => {
                 style={{
                   borderRadius: "10px",
                   border: "1px solid black",
+                  height:'350px',
+                  width:'300px',
                   margin: "10px",
                   padding: "10px",
                   display:'inline-block'
@@ -96,7 +98,7 @@ const MarkersScreen = () => {
                     Update data
                   </button>
                 </p>
-                <div><img src={marker.imgUrl} style={{height:'150px', borderRadius:'80px'}}/></div>
+                <div><img src={marker.imgUrl} style={{height:'150px', width:'200px', borderRadius:'80px'}}/></div>
                 <p>Created by : {marker.user}</p>
                 <button
                   onClick={() => {
