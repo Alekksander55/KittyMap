@@ -1,11 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import Spinner from "react-bootstrap/Spinner";
+import { Button } from "react-bootstrap";
 
 const ImageUploader = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState();
   const [imgUrl, setImgUrl] = useState(null);
+  const [display, setDisplay] = useState('none')
   const handleChange = (e) => {
     console.log(e.target.files);
     setImage(e.target.files[0]);
@@ -27,6 +29,7 @@ const ImageUploader = (props) => {
       .catch((err) => {
         console.log(err), setIsLoading(false);
       });
+      setDisplay('')
   };
 
   return (
@@ -39,7 +42,7 @@ const ImageUploader = (props) => {
       &nbsp;
       <div>
         <br></br>
-      <button onClick={() => props.onUpload(imgUrl)}> { isLoading ? <Spinner/> : <>Create Marker</>}</button>
+      <button style={{display:`${display}`}} onClick={() => {props.onUpload(imgUrl), setDisplay('none')}}> { isLoading ? <Spinner/> : <>Create Marker</>}</button>
       </div>
     </>
   );

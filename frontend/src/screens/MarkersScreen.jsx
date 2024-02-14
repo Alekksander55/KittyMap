@@ -7,7 +7,11 @@ import {
 import Loader from "../components/Loader";
 import catIcon from "../assets/catIcon.png";
 import catIconNotFriendly from "../assets/catIconNotFriendly.png";
-import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../slices/userApiSlice";
 
 const MarkersScreen = () => {
   const [title, setTitle] = useState("");
@@ -18,6 +22,20 @@ const MarkersScreen = () => {
   const [delMarker] = useDelMarkerMutation();
   const [updateMarker] = useUpdateMarkerMutation();
   const { userInfo } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+
+    }
+  };
 
   const fetchMarkers = async () => {
     try {
@@ -25,6 +43,10 @@ const MarkersScreen = () => {
       setMarkers(res.markers);
     } catch (error) {
       console.log(error);
+      if (error.status === 401) {
+        logoutHandler();
+        toast.error('Session expired, please sign in again')
+      }
     }
   };
 
