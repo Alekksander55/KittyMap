@@ -86,7 +86,7 @@ const MapScreen = () => {
     );
   };
 
-  // Load the markers from the MongoDB
+  // Load the markers from  MongoDB
   useEffect(() => {
     fetchMarkers();
     handleStart();
